@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loom Agency · Portefólio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,400;1,9..144,500&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F1EA;
+    --ink:#14120F;
+    --magenta:#C4157A;
+    --grey:#8B8681;
+    --line:#DAD5CC;
+    --plum:#2B0A1A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  h1,h2,h3{font-family:'Fraunces', serif;font-weight:500;margin:0;}
+  em{font-style:italic;font-weight:400;}
+  a{color:inherit;}
+
+  /* ---- header ---- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(243,241,234,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;max-width:1080px;margin:0 auto;}
+  .nav .mark{font-family:'Fraunces', serif;font-size:22px;font-weight:500;letter-spacing:0.3px;}
+  .nav .mark span{color:var(--magenta);}
+  .nav ul{list-style:none;display:flex;gap:28px;margin:0;padding:0;}
+  .nav ul a{text-decoration:none;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;}
+  .nav ul a:hover{color:var(--magenta);}
+  .nav ul a.active{color:var(--magenta);}
+
+  .nav-right{display:flex;align-items:center;gap:32px;}
+  .lang-switch{display:flex;border:1px solid var(--ink);border-radius:100px;overflow:hidden;}
+  .lang-btn{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.04em;background:transparent;color:var(--ink);border:0;padding:6px 12px;cursor:pointer;transition:background .15s ease,color .15s ease;}
+  .lang-btn.active{background:var(--ink);color:var(--paper);}
+  .lang-btn:not(.active):hover{color:var(--magenta);}
+  @media (max-width:820px){
+    .nav{flex-wrap:wrap;gap:12px;padding:14px 20px;}
+    .nav-right{flex-wrap:wrap;gap:12px 20px;}
+    .nav ul{gap:16px;flex-wrap:wrap;}
+  }
+
+  [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].in-view{opacity:1;transform:translateY(0);}
+
+  /* ---- hero ---- */
+  .hero{padding:120px 0 90px;position:relative;overflow:hidden;}
+  .hero .eyebrow{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey);margin-bottom:22px;display:block;}
+  .hero h1{font-size:clamp(44px,7vw,84px);line-height:1.02;max-width:820px;}
+  .hero h1 em{color:var(--magenta);}
+  .hero p.lede{max-width:560px;margin-top:28px;font-size:18px;color:#3a3833;}
+  .facet{
+    position:absolute;right:-60px;top:70px;width:340px;height:340px;
+    border-radius:50%;
+    background:
+      conic-gradient(from 0deg,
+        var(--magenta) 0deg 18deg, transparent 18deg 36deg,
+        var(--magenta) 36deg 54deg, transparent 54deg 72deg,
+        var(--magenta) 72deg 90deg, transparent 90deg 108deg,
+        var(--magenta) 108deg 126deg, transparent 126deg 144deg,
+        var(--magenta) 144deg 162deg, transparent 162deg 180deg,
+        var(--magenta) 180deg 198deg, transparent 198deg 216deg,
+        var(--magenta) 216deg 234deg, transparent 234deg 252deg,
+        var(--magenta) 252deg 270deg, transparent 270deg 288deg,
+        var(--magenta) 288deg 306deg, transparent 306deg 324deg,
+        var(--magenta) 324deg 342deg, transparent 342deg 360deg);
+    opacity:0.14;
+    transition:transform 6s linear;
+    pointer-events:none;
+  }
+  .hero:hover .facet{transform:rotate(90deg);}
+  @media (max-width:820px){.facet{display:none;}}
+
+  /* ---- section shell ---- */
+  section{padding:76px 0;border-top:1px solid var(--line);scroll-margin-top:84px;}
+  .section-label{font-size:13px;text-transform:uppercase;letter-spacing:0.08em;color:var(--grey);margin-bottom:14px;display:block;}
+  section h2{font-size:clamp(28px,4vw,40px);max-width:640px;margin-bottom:24px;}
+
+  /* ---- about ---- */
+  .about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:start;}
+  .about-grid p{color:#3a3833;font-size:16px;max-width:480px;}
+  .about-grid p + p{margin-top:16px;}
+  .principles{border-left:1px solid var(--line);padding-left:28px;}
+  .principles li{list-style:none;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px;color:#3a3833;}
+  .principles li:first-child{padding-top:0;}
+  .principles li .n{font-family:'IBM Plex Mono',monospace;color:var(--magenta);margin-right:10px;font-size:13px;}
+
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px;}
+  .metric{background:var(--paper);padding:18px 16px;}
+  .metric .v{font-family:'Fraunces',serif;font-size:26px;color:var(--magenta);display:block;}
+  .metric .l{font-size:12px;color:var(--grey);margin-top:4px;}
+  .metric .d{font-size:11.5px;color:#3a3833;margin-top:2px;font-family:'IBM Plex Mono',monospace;}
+  @media (max-width:600px){.metrics{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---- services ---- */
+  .tagcloud{display:flex;flex-wrap:wrap;gap:10px;}
+  .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;
+    border:1px solid var(--line);padding:9px 16px;border-radius:100px;
+    color:#3a3833;
+  }
+
+  /* ---- roster ---- */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;}
+  .filter-btn{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.02em;
+    background:transparent;border:1px solid var(--ink);color:var(--ink);
+    padding:8px 15px;border-radius:100px;cursor:pointer;transition:all .15s ease;
+  }
+  .filter-btn.active{background:var(--ink);color:var(--paper);}
+  .filter-btn:not(.active):hover{border-color:var(--magenta);color:var(--magenta);}
+
+  .roster{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .card{background:var(--paper);padding:30px 32px;transition:opacity .2s ease, transform .35s ease, box-shadow .35s ease;}
+  .card:not(.hide):hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(20,18,15,0.08);position:relative;z-index:1;}
+  .card.hide{display:none;}
+  .card.wide{grid-column:1 / -1;}
+  .card .tag-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+  .card .niche{font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--magenta);}
+  .card h3{font-size:21px;margin-bottom:12px;}
+  .card p{font-size:14.5px;color:#3a3833;margin:0 0 8px;}
+  .card ul{margin:12px 0 0;padding-left:18px;font-size:14px;color:#3a3833;}
+  .card ul li{margin-bottom:6px;}
+  .ig-link{display:inline-block;margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--magenta);text-decoration:none;border-bottom:1px solid var(--magenta);}
+  .ig-link:hover{opacity:0.7;}
+  @media (max-width:760px){.roster{grid-template-columns:1fr;}}
+
+  /* ---- process ---- */
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .step{background:var(--paper);padding:32px 26px;}
+  .step .num{font-family:'IBM Plex Mono',monospace;color:var(--magenta);font-size:13px;margin-bottom:16px;display:block;}
+  .step h3{font-size:18px;margin-bottom:10px;}
+  .step p{font-size:14px;color:#3a3833;margin:0;}
+  @media (max-width:820px){.process{grid-template-columns:1fr 1fr;}}
+  @media (max-width:520px){.process{grid-template-columns:1fr;}}
+
+  /* ---- contact ---- */
+  .contact{background:var(--plum);color:var(--paper);}
+  .contact h2{color:var(--paper);}
+  .contact .placeholder{color:#c9a8b8;font-style:italic;}
+  .contact-row{display:flex;flex-wrap:wrap;gap:40px;margin-top:28px;}
+  .contact-row div{font-family:'IBM Plex Mono',monospace;font-size:14px;}
+  .contact-row .k{display:block;color:#c9a8b8;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+
+  footer{padding:26px 0;text-align:center;font-size:13px;color:var(--grey);font-family:'IBM Plex Mono',monospace;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="mark">loom<span>.</span></div>
+    <div class="nav-right">
+    <ul>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#clientes">Clientes</a></li>
+      <li><a href="#processo">Processo</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="lang-switch" role="group" aria-label="Língua / Language">
+      <button class="lang-btn active" data-lang="pt" aria-pressed="true" type="button">PT</button>
+      <button class="lang-btn" data-lang="en" aria-pressed="false" type="button">EN</button>
+    </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow mono">Social media agency · Algarve</span>
+    <h1>A estratégia vem sempre <em>antes</em> da estética.</h1>
+    <p class="lede">A Loom trabalha com marcas de nichos diferentes, do imobiliário ao turismo, da restauração à marca pessoal, e recusa conteúdo feito só para preencher o feed. Cada peça de conteúdo responde a um objetivo concreto do negócio.</p>
+  </div>
+  <div class="facet"></div>
+</section>
+
+<section id="sobre">
+  <div class="wrap about-grid">
+    <div data-reveal>
+      <span class="section-label mono">Sobre a loom</span>
+      <h2>Uma agência que pensa primeiro em negócio, depois em conteúdo.</h2>
+      <p>A Loom nasceu no final de 2024, a partir da gestão de redes sociais de um estúdio de beleza, e cresceu para uma agência que serve marcas de setores muito distintos no Algarve e fora dele.</p>
+      <p>Cada cliente tem um registo de comunicação próprio, uma língua ou combinação de línguas própria e uma estratégia à medida do seu público. Nada é copiado de cliente para cliente.</p>
+    </div>
+    <ul data-reveal class="principles">
+      <li><span class="n mono">01</span>Sem conteúdo vazio. Se um formato não serve o objetivo, não entra no calendário.</li>
+      <li><span class="n mono">02</span>Tom de voz específico por cliente, nunca um template genérico de agência.</li>
+      <li><span class="n mono">03</span>Leitura de dados mensal para ajustar estratégia, não só para reportar números.</li>
+      <li><span class="n mono">04</span>Direção criativa consistente com a identidade Nordic Chic da Loom.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="servicos">
+  <div class="wrap">
+    <span class="section-label mono">Serviços</span>
+    <h2>O que a Loom faz.</h2>
+    <div class="tagcloud">
+      <span class="tag">Estratégia de conteúdo</span>
+      <span class="tag">Gestão de redes sociais</span>
+      <span class="tag">Guiões e produção de vídeo</span>
+      <span class="tag">Gestão de comunidade</span>
+      <span class="tag">Gestão de campanhas pagas</span>
+      <span class="tag">Relatórios e análise de dados</span>
+      <span class="tag">Direção criativa</span>
+      <span class="tag">Conteúdo para marca pessoal</span>
+      <span class="tag">Copywriting bilingue</span>
+    </div>
+  </div>
+</section>
+
+<section id="clientes">
+  <div class="wrap">
+    <span class="section-label mono">Clientes</span>
+    <h2>Marcas com quem trabalhamos.</h2>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active mono" data-niche="todos">Todos</button>
+      <button class="filter-btn mono" data-niche="imobiliario">Imobiliário</button>
+      <button class="filter-btn mono" data-niche="gestao-propriedades">Gestão de propriedades</button>
+      <button class="filter-btn mono" data-niche="turismo">Turismo</button>
+      <button class="filter-btn mono" data-niche="restauracao">Restauração</button>
+      <button class="filter-btn mono" data-niche="arte">Arte e cultura</button>
+      <button class="filter-btn mono" data-niche="beleza">Beleza</button>
+      <button class="filter-btn mono" data-niche="hospitalidade">Hospitalidade</button>
+      <button class="filter-btn mono" data-niche="luxo">Luxo</button>
+    </div>
+
+    <div class="roster">
+
+      <div data-reveal class="card" data-niche="turismo">
+        <div class="tag-row"><span class="niche mono">Turismo</span></div>
+        <h3>Atlantis Tours</h3>
+        <p>Tours à Gruta de Benagil, pesca, veleiro e passeios de yacht. Conteúdo bilingue PT/EN com registo informal.</p>
+        <ul>
+          <li>Guiões estruturados em hook, desenvolvimento, toque emocional e CTA</li>
+          <li>Prova social integrada de forma orgânica, sem blocos de estatísticas isolados</li>
+          <li>Persona "Skipper" criada para atendimento e comunicação com clientes</li>
+        </ul>
+        <a class="ig-link" href="https://www.instagram.com/atlantis.tours/" target="_blank" rel="noopener">Ver Instagram ↗</a>
+      </div>
+
+      <div data-reveal class="card" data-niche="imobiliario">
+        <div class="tag-row"><span class="niche mono">Imobiliário</span></div>
+        <h3>BAP · Buy Algarve Properties</h3>
+        <p>Legendas bilingues PT/EN e reels de imóveis com um tom próximo, como quem mostra uma casa a um amigo.</p>
+        <ul>
+          <li>Séries fixas: Mitos vs Realidade, Dicas Rápidas, Passo a Passo</li>
+          <li>Reels sem talking head, sempre em banco de imagens ou stock footage</li>
+          <li>CTA direcionado para mensagem privada em vez de comentário público</li>
+        </ul>
+        <a class="ig-link" href="https://www.instagram.com/buyalgarveproperties/" target="_blank" rel="noopener">Ver Instagram ↗</a>
+      </div>
+
+      <div data-reveal class="card" data-niche="gestao-propriedades">
+        <div class="tag-row"><span class="niche mono">Gestão de propriedades</span></div>
+        <h3>Algarve Vacation</h3>
+        <p>Angariação de proprietários para gestão de alojamento local, com registo formal e foco estrito neste objetivo.</p>
+        <ul>
+          <li>Sem conteúdo turístico, exclusivamente orientado a proprietários</li>
+          <li>Análise de campanhas Meta Ads com relatório mensal em HTML e PDF</li>
+        </ul>
+        <a class="ig-link" href="https://www.instagram.com/algarvevacation/" target="_blank" rel="noopener">Ver Instagram ↗</a>
+      </div>
+
+      <div data-reveal class="card" data-niche="restauracao">
+        <div class="tag-row"><span class="niche mono">Restauração</span></div>
+        <h3>Allgarbe</h3>
+        <p>Restaurante com noites temáticas semanais (Fado, Flamenco, Árabe) e destaque rotativo de pratos.</p>
+        <ul>
+          <li>Registo informal e caloroso, incluindo respostas a mensagens diretas</li>
+          <li>Gravação simples em telemóvel, sem produção pesada, focada em bastidores</li>
+          <li>Diversificação de pratos em destaque para evitar repetição de um único prato âncora</li>
+        </ul>
+        <a class="ig-link" href="https://www.instagram.com/allgarbe.pt/" target="_blank" rel="noopener">Ver Instagram ↗</a>
+      </div>
+
+      <div data-reveal class="card wide" data-niche="restauracao">
+        <div class="tag-row"><span class="niche mono">Restauração · resultados em 1 mês</span></div>
+        <h3>Maxi Pizza</h3>
+        <p>Gestão de redes sociais. Resultados orgânicos de um mês de trabalho (Instagram e redes sociais).</p>
+        <div class="metrics">
+          <div class="metric"><span class="v" data-count="28140">0</span><span class="l">Visualizações</span><span class="d">+103,9%</span></div>
+          <div class="metric"><span class="v" data-count="12020">0</span><span class="l">Alcance</span><span class="d">+84,2%</span></div>
+          <div class="metric"><span class="v" data-count="405">0</span><span class="l">Visitas ao perfil</span><span class="d">+20,5%</span></div>
+          <div class="metric"><span class="v" data-count="400">0</span><span class="l">Interações</span><span class="d">+45,5%</span></div>
+          <div class="metric"><span class="v" data-count="35" data-prefix="+">0</span><span class="l">Novos seguidores</span><span class="d">+16,7%</span></div>
+        </div>
+      </div>
+
+      <div data-reveal class="card" data-niche="arte">
+        <div class="tag-row"><span class="niche mono">Arte e cultura</span></div>
+        <h3>The Art Studio Tavira</h3>
+        <p>Conteúdo para um espaço de arte e workshops em Tavira, com foco em mostrar o processo criativo e os eventos do estúdio.</p>
+      </div>
+
+      <div data-reveal class="card" data-niche="beleza">
+        <div class="tag-row"><span class="niche mono">Beleza</span></div>
+        <h3>Au Comptoir Beauté</h3>
+        <p>Estúdio de beleza em Perpignan e primeiro cliente da Loom, ainda antes de a agência ter esse nome.</p>
+        <ul>
+          <li>Legendas bilingues PT/FR com separador entre línguas</li>
+          <li>Voz em primeira pessoa, tom direto dirigido a pais</li>
+        </ul>
+        <a class="ig-link" href="https://www.instagram.com/aucomptoirbeautebaixas/" target="_blank" rel="noopener">Ver Instagram ↗</a>
+      </div>
+
+      <div data-reveal class="card" data-niche="hospitalidade">
+        <div class="tag-row"><span class="niche mono">Hospitalidade</span></div>
+        <h3>Quinta Feliz Dragão</h3>
+        <p>Quinta biológica com série de jantares privados farm-to-table, dois por mês, para doze convidados.</p>
+        <ul>
+          <li>Conteúdo em inglês com registo editorial, mais jovem, sem seguir trends de forma forçada</li>
+          <li>Convites e reservas para jantares de chefs convidados</li>
+        </ul>
+      </div>
+
+      <div data-reveal class="card" data-niche="luxo">
+        <div class="tag-row"><span class="niche mono">Luxo</span></div>
+        <h3>VC Club</h3>
+        <p>Clube privado de luxo, com conteúdo premium em inglês para LinkedIn e Instagram.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="processo">
+  <div class="wrap">
+    <span class="section-label mono">Processo</span>
+    <h2>Como trabalhamos, do briefing ao relatório.</h2>
+    <div class="process">
+      <div data-reveal class="step">
+        <span class="num mono">01</span>
+        <h3>Briefing</h3>
+        <p>Entendemos o negócio, o público real e o que já foi tentado antes.</p>
+      </div>
+      <div data-reveal class="step">
+        <span class="num mono">02</span>
+        <h3>Estratégia</h3>
+        <p>Definimos posicionamento, calendário e formatos ligados a objetivos concretos.</p>
+      </div>
+      <div data-reveal class="step">
+        <span class="num mono">03</span>
+        <h3>Produção</h3>
+        <p>Guiões, gravação, edição e design alinhados com a identidade da marca.</p>
+      </div>
+      <div data-reveal class="step">
+        <span class="num mono">04</span>
+        <h3>Otimização</h3>
+        <p>Lemos os dados todos os meses e ajustamos o que não está a funcionar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto" class="contact">
+  <div class="wrap">
+    <span class="section-label mono" style="color:#c9a8b8;">Contacto</span>
+    <h2>Vamos falar sobre a tua marca.</h2>
+    <div class="contact-row">
+      <div><span class="k">Email</span><a href="mailto:loomagency55@gmail.com">loomagency55@gmail.com</a></div>
+      <div><span class="k">WhatsApp</span><a href="https://wa.me/351926132780">+351 926 132 780</a></div>
+      <div><span class="k">Localização</span>Algarve, Portugal</div>
+    </div>
+  </div>
+</section>
+
+<footer>Loom Agency 🪩 · Algarve</footer>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const niche = btn.dataset.niche;
+      cards.forEach(card => {
+        if (niche === 'todos' || card.dataset.niche === niche) {
+          card.classList.remove('hide');
+        } else {
+          card.classList.add('hide');
+        }
+      });
+    });
+  });
+
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      const prefix = el.dataset.prefix || '';
+      const duration = 1100;
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+        el.textContent = prefix + value.toLocaleString(numLocale());
+        if (progress < 1) { requestAnimationFrame(tick); } else { el.dataset.done = '1'; }
+      }
+      requestAnimationFrame(tick);
+      counterObserver.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(el => counterObserver.observe(el));
+
+  const navLinks = document.querySelectorAll('.nav ul a');
+  const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector('.nav ul a[href="#' + entry.target.id + '"]');
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => s && navObserver.observe(s));
+
+  /* ---- PT | EN ---- */
+  const EN = {
+  "Sobre": "About",
+  "Serviços": "Services",
+  "Clientes": "Clients",
+  "Processo": "Process",
+  "Contacto": "Contact",
+  "A estratégia vem sempre": "Strategy always comes",
+  "antes": "before",
+  "da estética.": "aesthetics.",
+  "A Loom trabalha com marcas de nichos diferentes, do imobiliário ao turismo, da restauração à marca pessoal, e recusa conteúdo feito só para preencher o feed. Cada peça de conteúdo responde a um objetivo concreto do negócio.": "Loom works with brands across different niches, from real estate to tourism, from restaurants to personal brands, and refuses content made just to fill the feed. Every piece of content answers a concrete business goal.",
+  "Sobre a loom": "About Loom",
+  "Uma agência que pensa primeiro em negócio, depois em conteúdo.": "An agency that thinks business first, content second.",
+  "A Loom nasceu no final de 2024, a partir da gestão de redes sociais de um estúdio de beleza, e cresceu para uma agência que serve marcas de setores muito distintos no Algarve e fora dele.": "Loom started in late 2024, from managing the social media of a beauty studio, and grew into an agency serving brands from very different sectors in the Algarve and beyond.",
+  "Cada cliente tem um registo de comunicação próprio, uma língua ou combinação de línguas própria e uma estratégia à medida do seu público. Nada é copiado de cliente para cliente.": "Each client has its own communication register, its own language or mix of languages, and a strategy tailored to its audience. Nothing is copied from client to client.",
+  "Sem conteúdo vazio. Se um formato não serve o objetivo, não entra no calendário.": "No empty content. If a format doesn't serve the goal, it doesn't make it into the calendar.",
+  "Tom de voz específico por cliente, nunca um template genérico de agência.": "A specific tone of voice for each client, never a generic agency template.",
+  "Leitura de dados mensal para ajustar estratégia, não só para reportar números.": "Monthly data review to adjust strategy, not just to report numbers.",
+  "Direção criativa consistente com a identidade Nordic Chic da Loom.": "Creative direction consistent with Loom's Nordic Chic identity.",
+  "O que a Loom faz.": "What Loom does.",
+  "Estratégia de conteúdo": "Content strategy",
+  "Gestão de redes sociais": "Social media management",
+  "Guiões e produção de vídeo": "Scripts and video production",
+  "Gestão de comunidade": "Community management",
+  "Gestão de campanhas pagas": "Paid campaign management",
+  "Relatórios e análise de dados": "Reports and data analysis",
+  "Direção criativa": "Creative direction",
+  "Conteúdo para marca pessoal": "Personal brand content",
+  "Copywriting bilingue": "Bilingual copywriting",
+  "Marcas com quem trabalhamos.": "Brands we work with.",
+  "Todos": "All",
+  "Imobiliário": "Real estate",
+  "Gestão de propriedades": "Property management",
+  "Turismo": "Tourism",
+  "Restauração": "Restaurants",
+  "Arte e cultura": "Art and culture",
+  "Beleza": "Beauty",
+  "Hospitalidade": "Hospitality",
+  "Luxo": "Luxury",
+  "Ver Instagram ↗": "View Instagram ↗",
+  "Tours à Gruta de Benagil, pesca, veleiro e passeios de yacht. Conteúdo bilingue PT/EN com registo informal.": "Benagil Cave tours, fishing, sailing and yacht trips. Bilingual PT/EN content with an informal tone.",
+  "Guiões estruturados em hook, desenvolvimento, toque emocional e CTA": "Scripts structured as hook, development, emotional touch and CTA",
+  "Prova social integrada de forma orgânica, sem blocos de estatísticas isolados": "Social proof woven in organically, without isolated stat blocks",
+  "Persona \"Skipper\" criada para atendimento e comunicação com clientes": "\"Skipper\" persona created for customer service and client communication",
+  "Legendas bilingues PT/EN e reels de imóveis com um tom próximo, como quem mostra uma casa a um amigo.": "Bilingual PT/EN captions and property reels with a close, friendly tone, like showing a house to a friend.",
+  "Séries fixas: Mitos vs Realidade, Dicas Rápidas, Passo a Passo": "Recurring series: Myths vs Reality, Quick Tips, Step by Step",
+  "Reels sem talking head, sempre em banco de imagens ou stock footage": "Reels without a talking head, always using stock images or stock footage",
+  "CTA direcionado para mensagem privada em vez de comentário público": "CTA directing to a private message instead of a public comment",
+  "Angariação de proprietários para gestão de alojamento local, com registo formal e foco estrito neste objetivo.": "Owner acquisition for local accommodation management, with a formal tone and a strict focus on this goal.",
+  "Sem conteúdo turístico, exclusivamente orientado a proprietários": "No tourist content, exclusively aimed at property owners",
+  "Análise de campanhas Meta Ads com relatório mensal em HTML e PDF": "Meta Ads campaign analysis with a monthly report in HTML and PDF",
+  "Restaurante com noites temáticas semanais (Fado, Flamenco, Árabe) e destaque rotativo de pratos.": "Restaurant with weekly themed nights (Fado, Flamenco, Arabic) and rotating dish highlights.",
+  "Registo informal e caloroso, incluindo respostas a mensagens diretas": "Informal, warm tone, including replies to direct messages",
+  "Gravação simples em telemóvel, sem produção pesada, focada em bastidores": "Simple phone recording, no heavy production, focused on behind the scenes",
+  "Diversificação de pratos em destaque para evitar repetição de um único prato âncora": "Varied featured dishes to avoid repeating a single anchor dish",
+  "Restauração · resultados em 1 mês": "Restaurants · 1 month results",
+  "Gestão de redes sociais. Resultados orgânicos de um mês de trabalho (Instagram e redes sociais).": "Social media management. Organic results from one month of work (Instagram and social media).",
+  "Visualizações": "Views",
+  "Alcance": "Reach",
+  "Visitas ao perfil": "Profile visits",
+  "Interações": "Interactions",
+  "Novos seguidores": "New followers",
+  "+103,9%": "+103.9%",
+  "+84,2%": "+84.2%",
+  "+20,5%": "+20.5%",
+  "+45,5%": "+45.5%",
+  "+16,7%": "+16.7%",
+  "Conteúdo para um espaço de arte e workshops em Tavira, com foco em mostrar o processo criativo e os eventos do estúdio.": "Content for an art and workshop space in Tavira, focused on showing the creative process and the studio's events.",
+  "Estúdio de beleza em Perpignan e primeiro cliente da Loom, ainda antes de a agência ter esse nome.": "Beauty studio in Perpignan and Loom's first client, even before the agency had its name.",
+  "Legendas bilingues PT/FR com separador entre línguas": "Bilingual PT/FR captions with a divider between languages",
+  "Voz em primeira pessoa, tom direto dirigido a pais": "First-person voice, direct tone aimed at parents",
+  "Quinta biológica com série de jantares privados farm-to-table, dois por mês, para doze convidados.": "Organic farm with a series of private farm-to-table dinners, two per month, for twelve guests.",
+  "Conteúdo em inglês com registo editorial, mais jovem, sem seguir trends de forma forçada": "English content with an editorial, younger tone, without forcing trends",
+  "Convites e reservas para jantares de chefs convidados": "Invitations and reservations for guest chef dinners",
+  "Clube privado de luxo, com conteúdo premium em inglês para LinkedIn e Instagram.": "Private luxury club, with premium English content for LinkedIn and Instagram.",
+  "Como trabalhamos, do briefing ao relatório.": "How we work, from briefing to report.",
+  "Estratégia": "Strategy",
+  "Produção": "Production",
+  "Otimização": "Optimisation",
+  "Entendemos o negócio, o público real e o que já foi tentado antes.": "We understand the business, the real audience and what has been tried before.",
+  "Definimos posicionamento, calendário e formatos ligados a objetivos concretos.": "We define positioning, calendar and formats tied to concrete goals.",
+  "Guiões, gravação, edição e design alinhados com a identidade da marca.": "Scripts, filming, editing and design aligned with the brand's identity.",
+  "Lemos os dados todos os meses e ajustamos o que não está a funcionar.": "We read the data every month and adjust what isn't working.",
+  "Vamos falar sobre a tua marca.": "Let's talk about your brand.",
+  "Localização": "Location"
+};
+  let currentLang = 'pt';
+  function numLocale() { return currentLang === 'en' ? 'en-GB' : 'pt-PT'; }
+
+  const i18nNodes = [];
+  (function collectTextNodes() {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n = walker.nextNode())) {
+      const raw = n.nodeValue;
+      const key = raw.trim();
+      if (key && Object.prototype.hasOwnProperty.call(EN, key)) {
+        i18nNodes.push({ node: n, pt: raw, en: raw.replace(key, () => EN[key]) });
+      }
+    }
+  })();
+
+  function setLang(lang) {
+    currentLang = lang === 'en' ? 'en' : 'pt';
+    i18nNodes.forEach(o => { o.node.nodeValue = currentLang === 'en' ? o.en : o.pt; });
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'pt-PT';
+    document.title = currentLang === 'en' ? 'Loom Agency · Portfolio' : 'Loom Agency · Portefólio';
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      const on = b.dataset.lang === currentLang;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-count][data-done]').forEach(el => {
+      el.textContent = (el.dataset.prefix || '') + parseInt(el.dataset.count, 10).toLocaleString(numLocale());
+    });
+    try { localStorage.setItem('loom-lang', currentLang); } catch (e) {}
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.addEventListener('click', () => setLang(b.dataset.lang));
+  });
+
+  try {
+    if (localStorage.getItem('loom-lang') === 'en') setLang('en');
+  } catch (e) {}
+</script>
+
+</body>
+</html>
